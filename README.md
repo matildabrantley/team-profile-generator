@@ -15,13 +15,14 @@ The purpose of this project is to generate a professional team profile roster we
 * [License](#license)
 * [Questions](#questions)
 * [Screenshots](#screenshots)
+* [Videos](#videos)
 ## Usage
 The primary use case is for software development teams that need to quickly generate or update their team's roster. Other use cases include teams at any company in general whose employees (including interns and managers) are in need of a website and may not have the technical experience to create one.
 ## 
 ## Installing 
 * The following command installs dependencies: **npm i**
 ## Testing
-* The following command runs tests: **npm test**
+* The following command runs tests: **npm run test**
 ## Features
 * **Inquirer.js** module used to prompt users from the command line for information about team members. This callback is wrapped in a recursive function that repeats the prompt as long as the user selects to add more team members.
 * **Jest.js** module used to test Employee and it's subclasses Intern, Engineer and Manager. These test files are in the __ test __ folder.
@@ -43,3 +44,11 @@ Here is a link to [my GitHub](https://github.com/matildabrantley)
 for access my other work.
 
 ## Screenshots
+Prompts and Tests in Terminal
+![Terminal Screenshot](media/terminal-screenshot.jpg)
+Generated HTML
+![HTML Screenshot](media/html-screenshot.jpg)
+## Videos
+[Video: Full Tutorial](https://drive.google.com/file/d/1igKEiHRgqCQSd6EFhBjAU8XCoY58vkcM/view)
+
+[Video: HTML Page & Links](https://drive.google.com/file/d/1u-Pz22MLYtMb4xAfOpP_7LsJQKi1pFM5/view)

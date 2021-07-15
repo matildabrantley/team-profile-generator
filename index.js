@@ -30,7 +30,7 @@ const generateCard = (res) => {
   }
 
 return ` 
-<div class="card text-white bg-primary mb-3" style="min-width: 18rem; margin: 30px; box-shadow: 7px 7px 7px 5px gray;">
+<div class="card text-white bg-primary mb-3" style="min-width: 22rem; margin: 30px; box-shadow: 7px 7px 7px 5px gray;">
     <div class="card-header">
       <h2>${employee.getName()}</h2><br>
       <h3>${employee.getRole()}</h3>
