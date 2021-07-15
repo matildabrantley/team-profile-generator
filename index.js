@@ -30,16 +30,16 @@ const generateCard = (res) => {
   }
 
 return ` 
-<div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+<div class="card text-white bg-primary mb-3" style="min-width: 18rem; margin: 100px;">
     <div class="card-header">
       <h2>${employee.getId()}</h2><br>
-      <h2>${employee.getRole()}</h2>
+      <h3>${employee.getRole()}</h3>
     </div>
     <div class="card-body">
       <ul class="list-group">
-        <li class="list-group-item list-group-item-primary">ID: ${employee.getId()}</li>
-        <li class="list-group-item list-group-item-primary">Email: ${employee.getEmail()}</li>
-        <li class="list-group-item list-group-item-primary">${extraInfo}</li>
+        <li class="list-group-item list-group-item-primary bg-light">ID: ${employee.getId()}</li>
+        <li class="list-group-item list-group-item-primary bg-light">Email: ${employee.getEmail()}</li>
+        <li class="list-group-item list-group-item-primary bg-light">${extraInfo}</li>
       </ul>
     </div>
   </div>
@@ -61,11 +61,13 @@ return `
 </head>
 <body>
 
-  <div class="jumbotron text-center">
+  <div class="jumbotron text-center bg-danger text-light">
     <h1>Team</h1>
   </div>
 
-  ${teamMemberCards.toString()}
+  <div style= "display: flex; flex-direction: row; flex-wrap: wrap">
+    ${teamMemberCards.toString()}
+  </div>
   
 </body>
 </html>
