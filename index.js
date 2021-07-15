@@ -12,10 +12,10 @@ const generateHTML = (res) => {
       employee = new Intern(res.name, res.id, res.email, res.school);
       break;
     case('Engineer'): 
-      employee = new Intern(res.name, res.id, res.email, res.github);
+      employee = new Engineer(res.name, res.id, res.email, res.github);
       break;
     case('Manager'): 
-      employee = new Intern(res.name, res.id, res.email, res.officeHours);
+      employee = new Manager(res.name, res.id, res.email, res.officeHours);
       break;
     default: 
       employee = new Employee(res.name, res.id, res.email);
