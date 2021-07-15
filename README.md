@@ -29,7 +29,7 @@ The primary use case is for software development teams that need to quickly gene
 * Three subclasses of Employee:
   * **Intern** has information and get method for employee's school attended.
   * **Engineer** has information and get method for employee's GitHub.
-  * **Manager** has information and get method for employee's office hours.
+  * **Manager** has information and get method for employee's office number.
 * **Index.js** is the entry point for the command line application that prompts user and then generates an HTML page.
   * teamMemberInput() starts the Inquirer prompt, calls generateCard after each team member's input, pushes that HTML block into teamMemberCards array, and calls itself if more team members to add. It finishes by calling generateHTML.
   * generateCard() creates an HTML block including team member's information with Bootstrap styles.

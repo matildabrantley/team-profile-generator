@@ -22,15 +22,15 @@ const generateCard = (res) => {
       extraInfo = "GitHub: " + res.github;
       break;
       case('Manager'): 
-      employee = new Manager(res.name, res.id, res.email, res.officeHours);
-      extraInfo = "Office Hours: " + res.officeHours;
+      employee = new Manager(res.name, res.id, res.email, res.officeNumber);
+      extraInfo = "Office Number: " + res.officeHours;
       break;
     default: 
       employee = new Employee(res.name, res.id, res.email);
   }
 
 return ` 
-<div class="card text-white bg-primary mb-3" style="min-width: 18rem; margin: 100px;">
+<div class="card text-white bg-primary mb-3" style="min-width: 18rem; margin: 30px; box-shadow: 7px 7px 7px 5px gray;">
     <div class="card-header">
       <h2>${employee.getId()}</h2><br>
       <h3>${employee.getRole()}</h3>
@@ -61,11 +61,11 @@ return `
 </head>
 <body>
 
-  <div class="jumbotron text-center bg-danger text-light">
+  <div class="jumbotron text-center bg-danger text-white">
     <h1>Team</h1>
   </div>
 
-  <div style= "display: flex; flex-direction: row; flex-wrap: wrap">
+  <div style= "display: flex; flex-direction: row; flex-wrap: wrap; margin: 5%;">
     ${teamMemberCards.toString()}
   </div>
   
@@ -111,7 +111,7 @@ inquirer
   {
     type: 'input',
     name: 'school',
-    message: 'What was the school of the team member? (Leave empty if N/A)',
+    message: 'What was the school of the team member? (Press enter if N/A)',
   },
   {
     type: 'confirm',
@@ -125,7 +125,7 @@ inquirer
       teamMemberInput();
     else {
       const teamHTML = generateHTML(res);
-      fs.writeFile('team.html', teamHTML, (error) =>
+      fs.writeFile('dist/team.html', teamHTML, (error) =>
         error ? console.log(error) : console.log('Created team.html')
       );
     }
