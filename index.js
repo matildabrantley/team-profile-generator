@@ -5,24 +5,48 @@ const Intern = require('./libs/intern');
 const Engineer = require('./libs/engineer');
 const Manager = require('./libs/manager');
 
-const generateHTML = (res) => {
+//Array of HTML card elements for team members
+const teamMemberCards = [];
+
+//Add a card to teamMemberCards
+const generateCard = (res) => {
   let employee;
+  let extraInfo = "";
   switch (res.role){
     case('Intern'): 
       employee = new Intern(res.name, res.id, res.email, res.school);
+      extraInfo = "School: " + res.school;
       break;
-    case('Engineer'): 
+      case('Engineer'): 
       employee = new Engineer(res.name, res.id, res.email, res.github);
+      extraInfo = "GitHub: " + res.github;
       break;
-    case('Manager'): 
+      case('Manager'): 
       employee = new Manager(res.name, res.id, res.email, res.officeHours);
+      extraInfo = "Office Hours: " + res.officeHours;
       break;
     default: 
       employee = new Employee(res.name, res.id, res.email);
   }
 
-  //TODO: insert expressions into template literal from class get methods
+return ` 
+<div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+    <div class="card-header">
+      <h2>${employee.getId()}</h2><br>
+      <h2>${employee.getRole()}</h2>
+    </div>
+    <div class="card-body">
+      <ul class="list-group">
+        <li class="list-group-item list-group-item-primary">ID: ${employee.getId()}</li>
+        <li class="list-group-item list-group-item-primary">Email: ${employee.getEmail()}</li>
+        <li class="list-group-item list-group-item-primary">${extraInfo}</li>
+      </ul>
+    </div>
+  </div>
+`;
+}
 
+const generateHTML = (res) => {
 return ` 
 <!DOCTYPE html>
 <html lang="en">
@@ -30,7 +54,7 @@ return `
   <meta charset="UTF-8">
   <title>Team Profiles</title>
 
-  <!-- Latest compiled and minified CSS -->
+  <!-- Minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- <link rel="stylesheet"  href="assets/css/style.css"> -->
@@ -41,24 +65,14 @@ return `
     <h1>Team</h1>
   </div>
 
-  <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
-    <div class="card-header">
-      <h2>Name</h2><br>
-      <h2>Role</h2>
-    </div>
-    <div class="card-body">
-      <ul class="list-group">
-        <li class="list-group-item list-group-item-primary"></li>
-        <li class="list-group-item list-group-item-primary"></li>
-        <li class="list-group-item list-group-item-primary"></li>
-      </ul>
-    </div>
-  </div>
+  ${teamMemberCards.toString()}
+  
 </body>
 </html>
 `;
 }
 
+function teamMemberInput(){
 inquirer
 .prompt([
   {
@@ -85,22 +99,36 @@ inquirer
   {
     type: 'input',
     name: 'officeNumber',
-    message: 'What is the office number of the team member? (Leave empty if N/A)',
+    message: 'What is the office number of the team member? (Press enter if N/A)',
   },
   {
     type: 'input',
     name: 'github',
-    message: 'What is the GitHub username of the team member? (Leave empty if N/A)',
+    message: 'What is the GitHub username of the team member? (Press enter if N/A)',
   },
   {
     type: 'input',
     name: 'school',
     message: 'What was the school of the team member? (Leave empty if N/A)',
+  },
+  {
+    type: 'confirm',
+    name: 'another',
+    message: 'Add another team member?',
   }
   ])
   .then((res) => {
-    const teamHTML = generateHTML(res);
-    fs.writeFile('team.html', teamHTML, (error) =>
-      error ? console.log(error) : console.log('Created team.html')
-    );
+    teamMemberCards.push(generateCard(res));
+    if (res.another) 
+      teamMemberInput();
+    else {
+      const teamHTML = generateHTML(res);
+      fs.writeFile('team.html', teamHTML, (error) =>
+        error ? console.log(error) : console.log('Created team.html')
+      );
+    }
   });
+}
+
+//start command-line application
+teamMemberInput();
