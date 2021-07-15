@@ -15,15 +15,15 @@ const generateCard = (res) => {
   switch (res.role){
     case('Intern'): 
       employee = new Intern(res.name, res.id, res.email, res.school);
-      extraInfo = "School: " + res.school;
+      extraInfo = `School: ${res.school}`;
       break;
       case('Engineer'): 
       employee = new Engineer(res.name, res.id, res.email, res.github);
-      extraInfo = "GitHub: " + res.github;
+      extraInfo = `GitHub: <a href=https://github.com/${res.github}>${res.github}</a>`;
       break;
       case('Manager'): 
       employee = new Manager(res.name, res.id, res.email, res.officeNumber);
-      extraInfo = "Office Number: " + res.officeHours;
+      extraInfo = `Office Number: ${res.officeNumber}`;
       break;
     default: 
       employee = new Employee(res.name, res.id, res.email);
@@ -32,13 +32,13 @@ const generateCard = (res) => {
 return ` 
 <div class="card text-white bg-primary mb-3" style="min-width: 18rem; margin: 30px; box-shadow: 7px 7px 7px 5px gray;">
     <div class="card-header">
-      <h2>${employee.getId()}</h2><br>
+      <h2>${employee.getName()}</h2><br>
       <h3>${employee.getRole()}</h3>
     </div>
     <div class="card-body">
       <ul class="list-group">
         <li class="list-group-item list-group-item-primary bg-light">ID: ${employee.getId()}</li>
-        <li class="list-group-item list-group-item-primary bg-light">Email: ${employee.getEmail()}</li>
+        <li class="list-group-item list-group-item-primary bg-light">Email: <a href="mailto: ${employee.getEmail()}">${employee.getEmail()}</a></li>     
         <li class="list-group-item list-group-item-primary bg-light">${extraInfo}</li>
       </ul>
     </div>
