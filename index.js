@@ -1,123 +1,106 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
+const Employee = require('./libs/employee');
+const Intern = require('./libs/intern');
+const Engineer = require('./libs/engineer');
+const Manager = require('./libs/manager');
 
-const generateREADME = (devResponse) => {
-  let licenseBadge;
-  switch (devResponse.license){
-    case('MIT License'): 
-      licenseBadge = '![Generic badge](https://img.shields.io/badge/License-MIT-blue.svg)';
+const generateHTML = (res) => {
+  let employee;
+  switch (res.role){
+    case('Intern'): 
+      employee = new Intern(res.name, res.id, res.email, res.school);
       break;
-    case('APACHE 2.0 License'):
-      licenseBadge = '![Generic badge](https://img.shields.io/badge/License-APACHE-purple.svg)';
+    case('Engineer'): 
+      employee = new Intern(res.name, res.id, res.email, res.github);
       break;
-    case('BSD 3 License'):
-      licenseBadge = '![Generic badge](https://img.shields.io/badge/License-BSD3-green.svg)';
-      break;
-    case('GNU General Public License'):
-      licenseBadge = '![Generic badge](https://img.shields.io/badge/License-GPL-red.svg)';
-      break;
-    case('Mozilla Public License 2.0'):
-      licenseBadge = '![Generic badge](https://img.shields.io/badge/License-Mozilla-orange.svg)';
+    case('Manager'): 
+      employee = new Intern(res.name, res.id, res.email, res.officeHours);
       break;
     default: 
-      licenseBadge = "No License";
+      employee = new Employee(res.name, res.id, res.email);
   }
 
+  //TODO: insert expressions into template literal from class get methods
 
 return ` 
-# ${devResponse.project}
-${licenseBadge}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Team Profiles</title>
 
-### [My GitHub](https://github.com/${devResponse.gitUsername})
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- <link rel="stylesheet"  href="assets/css/style.css"> -->
+</head>
+<body>
 
-## Table of Contents:
+  <div class="jumbotron text-center">
+    <h1>Team</h1>
+  </div>
 
-* [Installing](#installing)
-* [Usage](#usage)
-* [Testing](#testing)
-* [Contributing](#contributing)
-* [License](#license)
-* [Questions](#questions)
-
-## Description
-${devResponse.description}
-## Usage
-${devResponse.usage}
-## 
-## Installing 
-* The following command installs dependencies:
-  * ${devResponse.installCommand}
-## Testing
-* The following command runs tests:
-  * ${devResponse.testCommand}
-
-## Usage
-
-## Contributing
-* What you should know about this GitHub repository:
-  * ${devResponse.repoInfo}
-## License
-The project is licensed under the ${devResponse.license} license.
-## Questions
-Questions about the project may be directed to my email at ${devResponse.email}.
-Here is a link to [my GitHub](https://github.com/${devResponse.gitUsername}) 
-for access my other work.
+  <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+    <div class="card-header">
+      <h2>Name</h2><br>
+      <h2>Role</h2>
+    </div>
+    <div class="card-body">
+      <ul class="list-group">
+        <li class="list-group-item list-group-item-primary"></li>
+        <li class="list-group-item list-group-item-primary"></li>
+        <li class="list-group-item list-group-item-primary"></li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
 `;
 }
 
 inquirer
 .prompt([
   {
-    type: 'input',
-    name: 'project',
-    message: 'What is the name of your project?',
+    type: 'list',
+    name: 'role',
+    message: 'Choose role for team member:',
+    choices: ['Intern', 'Engineer', 'Manager'],
   },
   {
     type: 'input',
-    name: 'description',
-    message: 'What is a brief description of your project?',
+    name: 'name',
+    message: 'What is the name of the team member?',
   },
   {
     type: 'input',
-    name: 'usage',
-    message: 'What are some of the usage cases of this project?',
+    name: 'id',
+    message: 'What is the ID of the team member?',
   },
-  {
-    type: 'input',
-    name: 'gitUsername',
-    message: 'What is your GitHub username?',
-    },
   {
       type: 'input',
       name: 'email',
-      message: 'What is your email?',
+      message: 'What is the email of the team member?',
   },
   {
-      type: 'input',
-      name: 'installCommand',
-      message: 'What is the command  that installs dependencies?',
+    type: 'input',
+    name: 'officeNumber',
+    message: 'What is the office number of the team member? (Leave empty if N/A)',
   },
   {
-      type: 'input',
-      name: 'testCommand',
-      message: 'What is the command that runs tests?',
+    type: 'input',
+    name: 'github',
+    message: 'What is the GitHub username of the team member? (Leave empty if N/A)',
   },
   {
-      type: 'input',
-      name: 'repoInfo',
-      message: 'What should a user know about your GitHub repository?',
-  },
-  {
-      type: 'list',
-      name: 'license',
-      message: 'Under which license is this project published?',
-      choices: ['MIT License', 'APACHE 2.0 License', 'BSD 3 License', 'GNU General Public License', 'Mozilla Public License 2.0', 'No License'],
+    type: 'input',
+    name: 'school',
+    message: 'What was the school of the team member? (Leave empty if N/A)',
   }
   ])
-  .then((devResponse) => {
-    const readmeContent = generateREADME(devResponse);
-
-    fs.writeFile('README.md', readmeContent, (err) =>
-      err ? console.log(err) : console.log('Created README.md!')
+  .then((res) => {
+    const teamHTML = generateHTML(res);
+    fs.writeFile('team.html', teamHTML, (error) =>
+      error ? console.log(error) : console.log('Created team.html')
     );
   });

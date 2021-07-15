@@ -10,3 +10,4 @@ class Manager extend Employee {
         return 'Manager';
     }
 }
+module.exports = Manager;
